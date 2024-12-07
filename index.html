@@ -7,46 +7,131 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
   }
-  textarea {
-    width: 100%;
-    height: 200px;
+
+  header {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 30px;
   }
+
+  .container {
+    max-width: 800px;
+    background: #ffffff;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+
+  h1, h2 {
+    color: #2c3e50;
+  }
+
   .form-section {
     margin-bottom: 20px;
   }
+
+  .form-section p {
+    margin: 0 0 10px;
+    color: #34495e;
+  }
+
+  textarea {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 14px;
+    resize: vertical;
+    color: #2c3e50;
+  }
+
+  label {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #34495e;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  button {
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #2980b9;
+  }
+
   .buttons {
     margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  #pakCommandOutput {
+    font-family: monospace;
+    font-size: 14px;
+  }
+
+  .info-text {
+    font-size: 13px;
+    color: #7f8c8d;
+    margin-bottom: 5px;
   }
 </style>
 </head>
 <body>
 
-<h1>renv2pak</h1>
+<header>
+  <h1>renv2pak</h1>
+  <p>Convert your renv.lock file packages into a pak install command</p>
+</header>
 
-<div class="form-section">
-  <h2>Input renv.lock File</h2>
-  <p>Paste the content of your <code>renv.lock</code> file here:</p>
-  <textarea id="renvLockInput" placeholder="Paste your renv.lock file content here..."></textarea>
-</div>
+<div class="container">
+  <div class="form-section">
+    <h2>Input renv.lock File</h2>
+    <p>Paste the content of your <code>renv.lock</code> file here:</p>
+    <textarea id="renvLockInput" placeholder="Paste your renv.lock file content here..."></textarea>
+  </div>
 
-<div class="form-section">
-  <h2>Options</h2>
-  <label>
-    <input type="checkbox" id="includeVersions" /> Include package versions
-  </label>
-</div>
+  <div class="form-section">
+    <h2>Options</h2>
+    <label>
+      <input type="checkbox" id="includeVersions" /> Include package versions
+    </label>
+  </div>
 
-<div class="form-section">
-  <button id="generateBtn">Generate pak Command</button>
-</div>
+  <div class="form-section">
+    <button id="generateBtn">Generate pak Command</button>
+  </div>
 
-<div class="form-section">
-  <h2>Output</h2>
-  <textarea id="pakCommandOutput" readonly></textarea>
-  <div class="buttons">
-    <button id="copyBtn">Copy to Clipboard</button>
+  <div class="form-section">
+    <h2>Output</h2>
+    <p class="info-text">Below is the command to ensure pak is installed, followed by the generated pak command:</p>
+    <textarea id="pakCommandOutput" readonly></textarea>
+    <div class="buttons">
+      <button id="copyBtn">Copy to Clipboard</button>
+    </div>
   </div>
 </div>
 
@@ -54,7 +139,6 @@
 document.getElementById('generateBtn').addEventListener('click', function() {
   const renvContent = document.getElementById('renvLockInput').value.trim();
   const includeVersions = document.getElementById('includeVersions').checked;
-  let pakCommand = '';
 
   if (!renvContent) {
     alert('Please paste the content of the renv.lock file first.');
@@ -87,7 +171,7 @@ document.getElementById('generateBtn').addEventListener('click', function() {
     }
   }
 
-  pakCommand = `pak::pak(c(${pkgArray.map(p => `"${p}"`).join(", ")}))`;
+  const pakCommand = `install.packages("pak")\n\npak::pak(c(${pkgArray.map(p => `"${p}"`).join(", ")}))`;
   document.getElementById('pakCommandOutput').value = pakCommand;
 });
 
