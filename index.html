@@ -15,9 +15,14 @@
   header {
     background: #2c3e50;
     color: #ecf0f1;
-    padding: 20px;
+    padding: 40px 20px;
     text-align: center;
     margin-bottom: 30px;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 2.5em;
   }
 
   .container {
@@ -29,7 +34,7 @@
     padding: 20px;
   }
 
-  h1, h2 {
+  h2 {
     color: #2c3e50;
     margin-top: 0;
   }
@@ -128,8 +133,8 @@
 
 <div class="container">
   <div class="intro">
-    <p><strong>About:</strong> This tool is a workaround for scenarios where <code>renv::restore()</code> encounters issues. By using this application, you can convert a <code>renv.lock</code> file into a <code>pak</code>-based installation command. After installing your packages via <code>pak</code>, you may choose to take a new <code>renv::snapshot()</code> if needed to solidify your environment state.</p>
-    <p class="disclaimer">Disclaimer: This might not be the best practice for strict reproducibility, but can help in tricky situations.</p>
+    <p><strong>About:</strong> This tool is a workaround for scenarios where <code>renv::restore()</code> encounters issues. By using this application, you can convert a <code>renv.lock</code> file into a <code>pak</code>-based installation command. After installing your packages via <code>pak</code>, you may choose to run <code>renv::snapshot()</code> to capture the new state.</p>
+    <p class="disclaimer">Disclaimer: This might not be the best practice for strict reproducibility, but it can help in tricky situations.</p>
   </div>
 
   <div class="form-section">
