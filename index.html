@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>renv2pak</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  textarea {
+    width: 100%;
+    height: 200px;
+  }
+  .form-section {
+    margin-bottom: 20px;
+  }
+  .buttons {
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h1>renv2pak</h1>
+
+<div class="form-section">
+  <h2>Input renv.lock File</h2>
+  <p>Paste the content of your <code>renv.lock</code> file here:</p>
+  <textarea id="renvLockInput" placeholder="Paste your renv.lock file content here..."></textarea>
+</div>
+
+<div class="form-section">
+  <h2>Options</h2>
+  <label>
+    <input type="checkbox" id="includeVersions" /> Include package versions
+  </label>
+</div>
+
+<div class="form-section">
+  <button id="generateBtn">Generate pak Command</button>
+</div>
+
+<div class="form-section">
+  <h2>Output</h2>
+  <textarea id="pakCommandOutput" readonly></textarea>
+  <div class="buttons">
+    <button id="copyBtn">Copy to Clipboard</button>
+  </div>
+</div>
+
+<script>
+document.getElementById('generateBtn').addEventListener('click', function() {
+  const renvContent = document.getElementById('renvLockInput').value.trim();
+  const includeVersions = document.getElementById('includeVersions').checked;
+  let pakCommand = '';
+
+  if (!renvContent) {
+    alert('Please paste the content of the renv.lock file first.');
+    return;
+  }
+
+  let jsonData;
+  try {
+    jsonData = JSON.parse(renvContent);
+  } catch (e) {
+    alert('Invalid JSON in renv.lock file.');
+    return;
+  }
+
+  if (!jsonData['Packages']) {
+    alert('No "Packages" field found in renv.lock. Please check your file.');
+    return;
+  }
+
+  const packages = jsonData['Packages'];
+  let pkgArray = [];
+  for (const pkgName in packages) {
+    if (packages.hasOwnProperty(pkgName)) {
+      const version = packages[pkgName]['Version'];
+      if (includeVersions && version) {
+        pkgArray.push(`${pkgName}@${version}`);
+      } else {
+        pkgArray.push(pkgName);
+      }
+    }
+  }
+
+  pakCommand = `pak::pak(c(${pkgArray.map(p => `"${p}"`).join(", ")}))`;
+  document.getElementById('pakCommandOutput').value = pakCommand;
+});
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const pakOutput = document.getElementById('pakCommandOutput');
+  pakOutput.select();
+  pakOutput.setSelectionRange(0, 99999); // For mobile devices
+
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      alert('Copied to clipboard!');
+    } else {
+      alert('Unable to copy.');
+    }
+  } catch (err) {
+    alert('Unable to copy.');
+  }
+});
+</script>
+
+</body>
+</html>
