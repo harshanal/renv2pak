@@ -200,7 +200,7 @@ document.getElementById('generateBtn').addEventListener('click', function() {
     }
   }
 
-  const pakCommand = `install.packages("pak")\n\npak::pak(c(${pkgArray.map(p => `"${p}"`).join(", ")}))`;
+  const pakCommand = `install.packages("pak", quiet = TRUE)\n\npak::pak(c(${pkgArray.map(p => `"${p}"`).join(", ")}))`;
   document.getElementById('pakCommandOutput').value = pakCommand;
 });
 
