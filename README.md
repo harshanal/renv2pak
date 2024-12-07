@@ -2,6 +2,8 @@
 
 **renv2pak** is a small web-based utility to help you install R packages defined in a `renv.lock` file using the [`pak`](https://pak.r-lib.org/) package. This tool can be used as a workaround when you encounter issues with `renv::restore()`, especially when migrating your environment to newer versions of R or dealing with complicated dependency resolutions.
 
+**Link to the App:** [https://harshanal.github.io/renv2pak/](https://harshanal.github.io/renv2pak/)  
+
 ## Why This Tool?
 
 When using `renv` for reproducible R environments, you typically rely on `renv::restore()` to set up your project dependencies exactly as defined in the `renv.lock` file. However, in some cases—such as after upgrading to a newer version of R or encountering tricky dependency installation problems—`renv::restore()` may fail, hang, or otherwise not behave as expected.
@@ -28,7 +30,7 @@ While this approach may not perfectly replicate every subtle nuance of `renv::re
 
 1. **Before Starting:** Ensure you have a backup of your original `renv.lock` file.
 2. **Run renv2pak:**
-   - Paste `renv.lock` content into the web app.
+   - Paste `renv.lock` content into the [renv2pak app](https://harshanal.github.io/renv2pak/).
    - If strict versions are desired, check the "Include package versions" box.
    - Generate the command.
 3. **In R:**
