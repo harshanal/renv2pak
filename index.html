@@ -31,6 +31,7 @@
 
   h1, h2 {
     color: #2c3e50;
+    margin-top: 0;
   }
 
   .form-section {
@@ -98,16 +99,39 @@
     color: #7f8c8d;
     margin-bottom: 5px;
   }
+
+  .intro {
+    background: #ecf0f1;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+
+  .intro p {
+    margin: 0 0 10px;
+  }
+
+  .disclaimer {
+    font-size: 13px;
+    color: #7f8c8d;
+    font-style: italic;
+    margin-top: 10px;
+  }
 </style>
 </head>
 <body>
 
 <header>
   <h1>renv2pak</h1>
-  <p>Convert your renv.lock file packages into a pak install command</p>
 </header>
 
 <div class="container">
+  <div class="intro">
+    <p><strong>About:</strong> This tool is a workaround for scenarios where <code>renv::restore()</code> encounters issues. By using this application, you can convert a <code>renv.lock</code> file into a <code>pak</code>-based installation command. After installing your packages via <code>pak</code>, you may choose to take a new <code>renv::snapshot()</code> if needed to solidify your environment state.</p>
+    <p class="disclaimer">Disclaimer: This might not be the best practice for strict reproducibility, but can help in tricky situations.</p>
+  </div>
+
   <div class="form-section">
     <h2>Input renv.lock File</h2>
     <p>Paste the content of your <code>renv.lock</code> file here:</p>
